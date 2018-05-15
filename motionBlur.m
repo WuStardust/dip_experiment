@@ -2,7 +2,7 @@ clear all
 %% read image and transform to gray
 img = imread('./src/motionBlur.bmp');
 img = sum(img, 3) / 3;
-subplot(141)
+subplot(151)
 imshow(img, [])
 title('原图像')
 
@@ -14,7 +14,7 @@ for i=2:279
 end
 
 ImgD(:,2) = 0;
-subplot(142)
+subplot(152)
 imshow(ImgD, [])
 title('差分图')
 
@@ -26,7 +26,7 @@ for i=1:279
     end
 end
 
-subplot(143)
+subplot(153)
 imshow(resultImg, [])
 title('复原图(d=16)')
 
@@ -38,10 +38,10 @@ for i=1:279
     end
 end
 
-subplot(144)
+subplot(154)
 imshow(resultImg, [])
 title('复原图(d=18)')
 
-figure()
+subplot(155)
 imshow(ImgD, [0,10])
 title('差分图灰度变换后')
