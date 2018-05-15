@@ -6,6 +6,7 @@ img = sum(img, 3) / 3;
 figure(1)
 subplot(1,2,1)
 imshow(img,[0, 255])
+title('原图像')
 %% select seed by click
 if( exist('x','var') == 0 && exist('y','var') == 0)  
     [y,x] = getpts;%鼠标取点  回车确定  
@@ -17,7 +18,8 @@ end
 %% grow
 global resultImg
 global stack
-resultImg = zeros(size(img)); %img;
+% resultImg = zeros(size(img));
+resultImg = img;
 
 stack = [[-1; -1], [-1; -1]];
 push(x1, y1);
@@ -35,9 +37,9 @@ end
 
 subplot(1,2,2)
 imshow(resultImg,[0, 256])
-imwrite(resultImg, 'result/twoCircle.bmp');
+title('结果图')
 
-%% add point
+%% add point by N4
 function exist = nearestPoint(threshold)
     global img
     global resultImg
@@ -48,19 +50,19 @@ function exist = nearestPoint(threshold)
     x = temp(1); y = temp(2);
 
     current = img(x, y);
-    if(x ~= 1 && resultImg(x-1,y) ~= 256 && abs(img(x-1,y)-current) < threshold)% && img(x-1,y) > 130 && img(x-1,y) < 190)
+    if(x ~= 1 && resultImg(x-1,y) ~= 256 && abs(img(x-1,y)-current) < threshold)
         push(x-1, y);
         exist = 1;
     end
-    if(x ~= 576 && resultImg(x+1,y) ~= 256 && abs(img(x+1,y)-current) < threshold)% && img(x+1,y) > 130 && img(x+1,y) < 190)
+    if(x ~= 576 && resultImg(x+1,y) ~= 256 && abs(img(x+1,y)-current) < threshold)
        push(x+1,y);
        exist = 1;
     end
-    if(y ~= 1 && resultImg(x,y-1) ~= 256 && abs(img(x, y-1)-current) < threshold)% && img(x,y-1) > 130 && img(x,y-1) < 190)
+    if(y ~= 1 && resultImg(x,y-1) ~= 256 && abs(img(x, y-1)-current) < threshold)
         push(x, y-1);
         exist = 1;
     end
-    if (y ~= 593 && resultImg(x,y+1) ~= 256 && abs(img(x, y+1)-current) < threshold)% && img(x,y+1) > 130 && img(x,y+1) < 190)
+    if (y ~= 593 && resultImg(x,y+1) ~= 256 && abs(img(x, y+1)-current) < threshold)
         push(x, y+1);
         exist = 1;
     end
